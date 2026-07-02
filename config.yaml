@@ -1,0 +1,58 @@
+# ----------------------------------------------------------------------- #
+#                                                                         #
+#                               YMAL文件语法                               #
+#                       http://medai.icu/thread/677                       #
+#                                                                         #
+# ----------------------------------------------------------------------- #
+
+### ------------------------ 深度学习任务配置 ------------------------ ###
+# 使用Step0生成的数据划分的数据，在split_info文件夹, 这三兄弟需要一一对应！
+train_file: 
+val_file: 
+label_file: 
+# 任务的列名
+task_column: label
+# 你选择的模型名称
+# | **模型系列** | **模型名称**                                                   |
+# | ------------ | ------------------------------------------------------------ |
+# | AlexNet      | alexnet                                                      |
+# | VGG          | vgg11, vgg11_bn, vgg13, vgg13_bn, vgg16, vgg16_bn, vgg19_bn, vgg19 |
+# | ResNet       | resnet18, resnet34, resnet50, resnet101, resnet152, resnext50_32x4d, resnext101_32x8d, wide_resnet50_2, wide_resnet101_2 |
+# | DenseNet     | densenet121, densenet169, densenet201, densenet161           |
+# | Inception    | googlenet, inception_v3                                      |
+# | SqueezeNet   | squeezenet1_0, squeezenet1_1                                 |
+# | ShuffleNetV2 | shufflenet_v2_x2_0, shufflenet_v2_x0_5, shufflenet_v2_x1_0, shufflenet_v2_x1_5 |
+# | MobileNet    | mobilenet_v2, mobilenet_v3_large, mobilenet_v3_small         |
+# | MNASNet      | mnasnet0_5, mnasnet0_75, mnasnet1_0, mnasnet1_3              |
+# | ViT          | ViT, SimpleViT, Crossformer, TwinsSVT|
+compare_settings:
+  # 自己数据存放的目录。一般是由OKT-crop_max_ro工具生成。Crossformer,resnet18,densenet121,googlenet
+  task_types: []
+  data_patterns: []
+  in_channels: []
+  model_names: []
+# 这个不用动，模型存放的位置
+model_root: dl_models
+# 训练的轮数，一般情况30-50，数据量大的情况下，酌情提升。e.g. 300个样本，30就够，30000个样本，600。 多点可以，尽量不要少！
+epoch: 
+
+### ------------------------ 临床任务配置 ------------------------ ###
+clinic_file: 
+# 用于做临床特征筛选的pvalue
+p_value: 0.05
+
+### ------------------------ 汇总任务配置 ------------------------ ###
+# 对比不同的模型, 对应Step6.1 模型对比, 3c_resnet18,3c_densenet121,3c_vgg11;Crossformer_AP,Crossformer_CP,Crossformer_SP,Crossformer_Fusion
+compare_models: []
+# ROC、校准、DCA、Delong汇总对比的模型。 对应的Step6.2 指标汇总-Nomogram
+summary_models: []
+# 使用什么模型与临床特征进行融合，得到最终的Nomogram
+fusion_models: []
+sel_model: 
+  Clinic: 
+  MC2: 
+  
+subsets: []
+font.size: 12
+DISABLE_VIDEO: True
+PAPER_TMP: MultiChannel
