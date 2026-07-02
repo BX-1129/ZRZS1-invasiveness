@@ -1,0 +1,101 @@
+# ----------------------------------------------------------------------- #
+#                                                                         #
+#                               YMAL文件语法                               #
+#                       http://medai.icu/thread/677                       #
+#                                                                         #
+# ----------------------------------------------------------------------- #
+# 特征文件
+feature_file: 
+# label文件位置，注意这里需要是多中心的配置，包括group信息。 
+label_col: label
+dataset_col: group
+# 默认为空，即非_background_为roi区域，也可以自己指定ROI区域的label。
+supervise_label:
+# 自己的label文件用那个，必须包括group列，必要的时候，所有的都试一下，挑好的！
+label_file: 
+# 那两个文件存放的位置
+data_root: data
+# ----------------------- Transformer模型超参配置 -----------------------#
+# 深度学习模型的迭代次数，时间跟epoch成正比
+transformer_epoch:  # Transformer模型的训练轮数
+model_root: . # 模型存放的路径，如果是绝对目录，使用"绝对路径"
+# 选择那个epoch，如果为空的时候，默认选择viz目录最好的那个。
+sel_epoch:
+  transformer: 
+# Transformer中，使用的bagsize[每个样本，从中随机筛选多少进行Transformer聚合，与论文中的n一致]
+# 如果是时序相关的建议bagsize=时间点的个数
+# 时序无关的，1, 2, 4, 8, maxLen, 跑多次画图作对比。
+# 单一时间点的，bagsize=1
+bagsize: 
+# 时序相关的任务，在特征文件中，用那一列表明时序关系
+order_by_col: 
+# 那些cohort进行汇总, 如果设置不对，容易出现n_samples=0的错误！
+subsets: []
+### ------------------------ 临床任务配置 ------------------------ ###
+# 临床模型，对特征建模用到的机器学习算法
+ml_models:
+  - LR
+  - SVM
+  - KNN
+  - RandomForest
+  - ExtraTrees
+  - XGBoost
+  - LightGBM
+  - MLP
+  - NB
+  - GradientBoost
+# 是否使用SMOTE采样，解决样本不均衡的问题
+use_smote: False
+# 临床特征文件路径
+# 注意1：临床文件种不能包括任何中文字符
+# 注意2：文件种，不要有label、group列
+clinic_file: 
+# 用于做临床特征筛选的pvalue，取值范围{0.05, 1}，后者是不做单多因素
+p_value: 1
+### ------------------------ 汇总任务配置 ------------------------ ###
+# ROC、校准、DCA、Delong汇总对比的模型。 
+summary_models: []
+# 除了Combined不用设置，其他的，必须在sig_sel_model中指定使用的机器学习算法！
+sig_sel_model: 
+  Clinical: 
+  Transformer: Transformer
+
+### ------------------------ 不要动！ ------------------------ ###
+DISABLE_VIDEO: True
+PAPER_TMP: SeqTransformer
+
+### ------------------------ OnekeyStyle ------------------------------ ###
+# DPI
+figure.dpi: 300
+# 画布大小
+figure.figsize: [10, 8]
+# 字体大小
+font.size: 15
+# 显示精度，保留记为小数。
+display.precision: 3
+# 线宽
+display.linewidth: 4 
+# 线的类型
+display.linestyle: ['-', ':', '--', '-.']
+# 目前支持的色系：
+# Accent, Accent_r, Blues, Blues_r, BrBG, BrBG_r, BuGn, BuGn_r, BuPu, BuPu_r, 
+# CMRmap, CMRmap_r, Dark2, Dark2_r, GnBu, GnBu_r, Greens, Greens_r, Greys, 
+# Greys_r, OrRd, OrRd_r, Oranges, Oranges_r, PRGn, PRGn_r, Paired, Paired_r, 
+# Pastel1, Pastel1_r, Pastel2, Pastel2_r, PiYG, PiYG_r, PuBu, PuBuGn, PuBuGn_r, PuBu_r, 
+# PuOr, PuOr_r, PuRd, PuRd_r, Purples, Purples_r, RdBu, RdBu_r, RdGy, RdGy_r, RdPu, 
+# RdPu_r, RdYlBu, RdYlBu_r, RdYlGn, RdYlGn_r, Reds, Reds_r, Set1, Set1_r, Set2, Set2_r, 
+# Set3, Set3_r, Spectral, Spectral_r, Wistia, Wistia_r, YlGn, YlGnBu, YlGnBu_r, YlGn_r, 
+# YlOrBr, YlOrBr_r, YlOrRd, YlOrRd_r, afmhot, afmhot_r, autumn, autumn_r, binary, binary_r, 
+# bone, bone_r, brg, brg_r, bwr, bwr_r, cividis, cividis_r, cool, cool_r, coolwarm, coolwarm_r, 
+# copper, copper_r, crest, crest_r, cubehelix, cubehelix_r, flag, flag_r, flare, flare_r, 
+# gist_earth, gist_earth_r, gist_gray, gist_gray_r, gist_heat, gist_heat_r, gist_ncar, 
+# gist_ncar_r, gist_rainbow, gist_rainbow_r, gist_stern, gist_stern_r, gist_yarg, gist_yarg_r, 
+# gnuplot, gnuplot2, gnuplot2_r, gnuplot_r, gray, gray_r, hot, hot_r, hsv, hsv_r, icefire, icefire_r, 
+# inferno, inferno_r, jet, jet_r, magma, magma_r, mako, mako_r, nipy_spectral, nipy_spectral_r, 
+# ocean, ocean_r, pink, pink_r, plasma, plasma_r, prism, prism_r, rainbow, rainbow_r, rocket, 
+# rocket_r, seismic, seismic_r, spring, spring_r, summer, summer_r, tab10, tab10_r, tab20, tab20_r, 
+# tab20b, tab20b_r, tab20c, tab20c_r, terrain, terrain_r, twilight, twilight_r, twilight_shifted, 
+# twilight_shifted_r, viridis, viridis_r, vlag, vlag_r, winter, winter_r
+# 你也可以自己定义16进制的色彩图
+# display.colors: ['#47C190', '#2FD93B', '#B3A855']
+display.colors: Set1
