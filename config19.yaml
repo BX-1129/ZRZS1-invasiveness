@@ -1,0 +1,39 @@
+# This is an example of settings that can be used as a starting point for analyzing CT data. This is only intended as a
+# starting point and is not likely to be the optimal settings for your dataset. Some points in determining better values
+# are added as comments where appropriate
+
+# When adapting and using these settings for an analysis, be sure to add the PyRadiomics version used to allow you to
+# easily recreate your extraction at a later timepoint:
+
+# #############################  Extracted using PyRadiomics version: <version>  ######################################
+
+imageType:
+  Original: {}
+
+featureClass:
+  # redundant Compactness 1, Compactness 2 an Spherical Disproportion features are disabled by default, they can be
+  # enabled by specifying individual feature names (as is done for glcm) and including them in the list.
+  firstorder:
+    - 'Entropy'
+    - 'MeanAbsoluteDeviation'
+    - 'Median'
+  glcm:  # Disable SumAverage by specifying all other GLCM features available
+    - 'DifferenceAverage'
+    - 'DifferenceEntropy'
+    - 'DifferenceVariance'
+    - 'JointEnergy'
+    - 'JointEntropy'
+    - 'InverseVariance'
+    - 'SumEntropy'
+    - 'Imc1'
+    - 'Imc2'
+  glrlm:
+    - 'RunEntropy'
+    - 'RunVariance'
+    - 'LongRunEmphasis'
+  glszm:
+    - 'SizeZoneNonUniformityNormalized'
+    - 'SmallAreaHighGrayLevelEmphasis'
+  ngtdm:
+    - 'Contrast'
+    - 'Strength'
